@@ -34,11 +34,15 @@
                 "${lib.makeBinPath (with pkgs; [
                   # for treesitter and prob others idk
                   gcc
+
+                  git
                   # for telescope
                   ripgrep
                   fd
 
-                  git
+                  # toggleterm
+                  gitui
+
                   # treesitter
                   tree-sitter
                   nodejs
