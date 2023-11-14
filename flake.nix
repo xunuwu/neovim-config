@@ -32,11 +32,16 @@
                 "PATH"
                 ":"
                 "${lib.makeBinPath (with pkgs; [
+                  # for treesitter and prob others idk
+                  gcc
                   # for telescope
                   ripgrep
                   fd
 
                   git
+                  # treesitter
+                  tree-sitter
+                  nodejs
 
                   # language servers
                   lua-language-server
