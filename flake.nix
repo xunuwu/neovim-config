@@ -50,7 +50,7 @@
                   # language servers
                   lua-language-server
                   rust-analyzer
-                  haskell-language-server
+                  haskellPackages.haskell-language-server
                   nil
                   zls
                   clang-tools
