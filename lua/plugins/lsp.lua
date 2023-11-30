@@ -8,11 +8,11 @@ return {
 		{
 			"hrsh7th/nvim-cmp",
 			opts = function()
-				local lsp = require'lsp-zero'
+				local lsp = require("lsp-zero")
 				lsp.extend_cmp()
 
 				local cmp_action = lsp.cmp_action()
-				local cmp = require'cmp'
+				local cmp = require("cmp")
 				return {
 					mapping = cmp.mapping.preset.insert({
 						["<Tab>"] = cmp_action.luasnip_supertab(),
@@ -71,6 +71,7 @@ return {
 			"rust_analyzer",
 			"clangd",
 			"zls",
+			"hls",
 			"nil_ls",
 		})
 
