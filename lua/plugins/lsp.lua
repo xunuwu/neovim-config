@@ -31,6 +31,7 @@ return {
 		"mfussenegger/nvim-lint", -- linting
 
 		"L3MON4D3/LuaSnip", -- snippets
+		"rafamadriz/friendly-snippets",
 
 		-- formatter
 		{
