@@ -1,8 +1,10 @@
 vim.keymap.set("n", "<leader>w", "<C-w>")
 vim.keymap.set("t", "<esc><esc>", "<C-\\><C-n><C-w>")
 
-vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename)
-vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action)
-vim.keymap.set("n", "<leader>ld", vim.lsp.buf.declaration)
-vim.keymap.set("n", "<leader>lf", vim.lsp.buf.references)
-vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover)
+vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
+vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code Action" })
+vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, { desc = "Definition" })
+vim.keymap.set("n", "<leader>lf", vim.lsp.buf.references, { desc = "References" })
+vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Info" })
+
+vim.keymap.set("n", "<leader>ol", "<cmd>Lazy<cr>", { desc = "Lazy" })
