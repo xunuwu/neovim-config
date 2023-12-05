@@ -1,82 +1,88 @@
 return {
 	"VonHeikemen/lsp-zero.nvim",
 	branch = "v3.x",
-	dependencies = {
-		"neovim/nvim-lspconfig",
+	lazy = true,
+	init = function()
+		vim.g.lsp_zero_extend_cmp = 0
+		vim.g.lsp_zero_extend_lspconfig = 0
+	end,
 
-		-- completion
-		{
-			"hrsh7th/nvim-cmp",
-			opts = function()
-				local lsp = require("lsp-zero")
-				lsp.extend_cmp()
-
-				local cmp_action = lsp.cmp_action()
-				local cmp = require("cmp")
-				return {
-					mapping = cmp.mapping.preset.insert({
-						["<Tab>"] = cmp_action.luasnip_supertab(),
-						["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
-					}),
-				}
-			end,
+	-- completion
+	{
+		"hrsh7th/nvim-cmp",
+		event = "InsertEnter",
+		dependencies = {
+			{ "L3MON4D3/LuaSnip" },
+			{ "rafamadriz/friendly-snippets" },
 		},
-		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-path",
-		"saadparwaiz1/cmp_luasnip",
-		"hrsh7th/cmp-nvim-lua",
-		{ "folke/neodev.nvim", opts = {} },
+		config = function()
+			local lsp_zero = require("lsp-zero")
+			lsp_zero.extend_cmp()
 
-		"mfussenegger/nvim-lint", -- linting
+			local cmp = require("cmp")
+			local cmp_action = lsp_zero.cmp_action()
 
-		"L3MON4D3/LuaSnip", -- snippets
-		"rafamadriz/friendly-snippets",
+			cmp.setup({
+				formatting = lsp_zero.cmp_format(),
+				mapping = cmp.mapping.preset.insert({
+					["<C-Space>"] = cmp.mapping.complete(),
+				}),
+			})
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		cmd = "LspInfo",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			{ "hrsh7th/cmp-nvim-lsp" },
 
-		-- formatter
-		{
-			"stevearc/conform.nvim",
-			event = { "BufWritePre" },
-			cmd = { "ConformInfo" },
-			opts = {
-				formatters_by_ft = {
-					lua = { "stylua" },
-					nix = { "alejandra" },
-					rust = { "rustfmt" },
-				},
-				format_on_save = {
-					lsp_fallback = true,
-					async = false,
-					timeout_ms = 500,
-				},
+			-- lang specific
+			{ "folke/neodev.nvim" },
+		},
+		config = function()
+			require("neodev").setup()
+
+			local lsp_zero = require("lsp-zero")
+			lsp_zero.extend_lspconfig()
+
+			lsp_zero.on_attach(function(client, bufnr)
+				lsp_zero.default_keymaps({ buffer = bufnr })
+			end)
+
+			lsp_zero.set_sign_icons({
+				error = "✘",
+				warn = "▲",
+				hint = "⚑",
+				info = "»",
+			})
+
+			lsp_zero.setup_servers({
+				"lua_ls",
+				"rust_analyzer",
+				"clangd",
+				"zls",
+				"hls",
+				"nil_ls",
+			})
+		end,
+	},
+	-- formatter
+	{
+		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		opts = {
+			formatters_by_ft = {
+				lua = { "stylua" },
+				nix = { "alejandra" },
+				rust = { "rustfmt" },
+			},
+			format_on_save = {
+				lsp_fallback = true,
+				async = false,
+				timeout_ms = 500,
 			},
 		},
-
-		-- language specific
-		"simrat39/rust-tools.nvim",
-
-		{ "folke/trouble.nvim", dependencies = "nvim-tree/nvim-web-devicons" }, -- looks cool and stuff
 	},
-	config = function()
-		local lsp = require("lsp-zero")
-
-		lsp.set_sign_icons({
-			error = "✘",
-			warn = "▲",
-			hint = "⚑",
-			info = "»",
-		})
-
-		lsp.setup_servers({
-			"lua_ls",
-			"rust_analyzer",
-			"clangd",
-			"zls",
-			"hls",
-			"nil_ls",
-		})
-
-		vim.o.signcolumn = "yes"
-		vim.diagnostic.config({ virtual_text = true })
-	end,
 }
