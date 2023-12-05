@@ -1,9 +1,8 @@
 return {
-	"projekt0n/github-nvim-theme",
+	"nyoom-engineering/oxocarbon.nvim",
 	priority = 1000,
 	config = function()
-		vim.cmd([[colorscheme github_dark_default]])
-		vim.cmd([[highlight CursorLine guibg=#202020]])
-		vim.cmd([[highlight StatusLine guibg=#252025]])
+		vim.opt.background = "dark"
+		vim.cmd([[colorscheme oxocarbon]])
 	end,
 }

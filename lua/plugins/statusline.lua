@@ -5,20 +5,28 @@ return {
 		local conditions = require("heirline.conditions")
 		local utils = require("heirline.utils")
 
-		local colors = require("github-theme.palette").load("github_dark_default")
+		local colors = {
+			bright_bg = utils.get_highlight("Folded").bg,
+			bright_fg = utils.get_highlight("Folded").fg,
+			red = utils.get_highlight("DiagnosticError").fg,
+			dark_red = utils.get_highlight("DiffDelete").bg,
+			green = utils.get_highlight("String").fg,
+			blue = utils.get_highlight("Function").fg,
+			gray = utils.get_highlight("NonText").fg,
+			orange = utils.get_highlight("Constant").fg,
+			purple = utils.get_highlight("Statement").fg,
+			cyan = utils.get_highlight("Special").fg,
+			grey = utils.get_highlight("Comment").fg,
+			diag_warn = utils.get_highlight("DiagnosticWarn").fg,
+			diag_error = utils.get_highlight("DiagnosticError").fg,
+			diag_hint = utils.get_highlight("DiagnosticHint").fg,
+			diag_info = utils.get_highlight("DiagnosticInfo").fg,
+			git_added = utils.get_highlight("DiffAdded").fg,
+			git_changed = utils.get_highlight("DiffChanged").fg,
+			git_removed = utils.get_highlight("DiffRemoved").fg,
+		}
 
-		require("heirline").load_colors({
-			black = colors.black.base,
-			red = colors.red.base,
-			green = colors.green.base,
-			yellow = colors.yellow.base,
-			blue = colors.blue.base,
-			purple = colors.magenta.base,
-			cyan = colors.cyan.base,
-			white = colors.white.base,
-			orange = colors.orange,
-			pink = colors.pink.base,
-		})
+		require("heirline").load_colors(colors)
 
 		local ViMode = {
 			init = function(self)
@@ -77,7 +85,7 @@ return {
 				},
 			},
 			provider = function(self)
-				return " %2(" .. self.mode_names[self.mode] .. "%)"
+				return "▌%2(" .. self.mode_names[self.mode] .. "%)"
 			end,
 			hl = function(self)
 				local mode = self.mode:sub(1, 1) -- get only the first mode character
@@ -107,7 +115,7 @@ return {
 			},
 			provider = function()
 				local names = {}
-				for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+				for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 					table.insert(names, server.name)
 				end
 				return " " .. table.concat(names, " ")
@@ -211,57 +219,52 @@ return {
 			hl = { fg = "blue", bold = true },
 		}
 
-		local Git = {
+		local GitBranch = {
 			condition = conditions.is_git_repo,
 
 			init = function(self)
 				self.status_dict = vim.b.gitsigns_status_dict
-				self.has_changes = self.status_dict.added ~= 0
-					or self.status_dict.removed ~= 0
-					or self.status_dict.changed ~= 0
 			end,
 
 			hl = { fg = "pink" },
 
-			{ -- git branch name
+			{
 				provider = function(self)
 					return " " .. self.status_dict.head
 				end,
 				hl = { bold = true },
 			},
-			-- You could handle delimiters, icons and counts similar to Diagnostics
-			{
-				condition = function(self)
-					return self.has_changes
-				end,
-				provider = "(",
-			},
+		}
+
+		local GitChanges = {
+			condition = conditions.is_git_repo,
+
+			init = function(self)
+				self.status_dict = vim.b.gitsigns_status_dict
+			end,
+
+			hl = { fg = "pink" },
+
 			{
 				provider = function(self)
 					local count = self.status_dict.added or 0
-					return count > 0 and ("+" .. count)
+					return count > 0 and (" 󰜄 " .. count)
 				end,
-				hl = { fg = "green" },
-			},
-			{
-				provider = function(self)
-					local count = self.status_dict.removed or 0
-					return count > 0 and ("-" .. count)
-				end,
-				hl = { fg = "red" },
+				hl = { fg = "git_added" },
 			},
 			{
 				provider = function(self)
 					local count = self.status_dict.changed or 0
-					return count > 0 and ("~" .. count)
+					return count > 0 and (" 󱗝 " .. count)
 				end,
-				hl = { fg = "orange" },
+				hl = { fg = "git_changed" },
 			},
 			{
-				condition = function(self)
-					return self.has_changes
+				provider = function(self)
+					local count = self.status_dict.removed or 0
+					return count > 0 and (" 󰛲 " .. count)
 				end,
-				provider = ")",
+				hl = { fg = "git_removed" },
 			},
 		}
 
@@ -270,9 +273,9 @@ return {
 
       -- stylua: ignore
       local DefaultStatusLine = {
-         Space, ViMode, Space, WorkDir, Space, FileNameBlock, Align,
+         Space, ViMode, Space, WorkDir, Space, FileNameBlock, Space, GitChanges, Align,
          Align,
-         LSPActive, Space, Git, Space
+         LSPActive, Space, GitBranch, Space
       }
 
 		local StatusLines = {
