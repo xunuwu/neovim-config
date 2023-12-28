@@ -35,30 +35,16 @@
                   # for treesitter and prob others idk
                   gcc
 
-                  git
                   # for telescope
                   ripgrep
                   fd
-
-                  # toggleterm
-                  gitui
 
                   # treesitter
                   tree-sitter
                   nodejs
 
-                  # language servers
-                  lua-language-server
-                  rust-analyzer
-                  haskellPackages.haskell-language-server
-                  nil
-                  zls
-                  clang-tools
-
-                  # formatters
-                  stylua
-                  alejandra
-                  rustfmt
+                  # misc
+                  git
                 ])}"
               ];
             });

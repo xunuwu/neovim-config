@@ -14,18 +14,61 @@ return {
 		dependencies = {
 			{ "L3MON4D3/LuaSnip" },
 			{ "rafamadriz/friendly-snippets" },
+			{ "onsails/lspkind.nvim" },
 		},
 		config = function()
 			local lsp_zero = require("lsp-zero")
-			lsp_zero.extend_cmp()
+			--lsp_zero.extend_cmp()
 
 			local cmp = require("cmp")
 			local cmp_action = lsp_zero.cmp_action()
 
+			require("luasnip.loaders.from_vscode").lazy_load()
+
 			cmp.setup({
-				formatting = lsp_zero.cmp_format(),
+				formatting = {
+					fields = { "abbr", "kind", "menu" },
+					format = require("lspkind").cmp_format({
+						mode = "text_symbol",
+						maxwidth = 50,
+						ellipsis_char = "...",
+						symbol_map = {
+							Text = "󰉿 ",
+							Method = "󰆧 ",
+							Function = "󰊕 ",
+							Constructor = " ",
+							Field = "󰜢 ",
+							Variable = "󰀫 ",
+							Class = "󰠱 ",
+							Interface = " ",
+							Module = " ",
+							Property = "󰜢 ",
+							Unit = "󰑭 ",
+							Value = "󰎠 ",
+							Enum = " ",
+							Keyword = "󰌋 ",
+							Snippet = " ",
+							Color = "󰏘 ",
+							File = "󰈙 ",
+							Reference = "󰈇 ",
+							Folder = "󰉋 ",
+							EnumMember = " ",
+							Constant = "󰏿 ",
+							Struct = "󰙅 ",
+							Event = " ",
+							Operator = "󰆕 ",
+							TypeParameter = "",
+						},
+					}),
+				},
+				sources = {
+					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
+				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 			})
 		end,
