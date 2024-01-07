@@ -91,6 +91,12 @@ return {
 
 			lsp_zero.on_attach(function(client, bufnr)
 				lsp_zero.default_keymaps({ buffer = bufnr })
+				if client.server_capabilities.inlayHintProvider then
+					vim.lsp.inlay_hint.enable(bufnr, true)
+					vim.keymap.set("n", "<leader>lh", function()
+						vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled())
+					end, { desc = "toggle inlay hints", buffer = bufnr })
+				end
 			end)
 
 			lsp_zero.set_sign_icons({
