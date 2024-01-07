@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     utils.url = "github:numtide/flake-utils";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs = {
@@ -11,14 +12,14 @@
     nixpkgs,
     utils,
     ...
-  }:
+  } @ inputs:
     utils.lib.eachDefaultSystem (
       system: let
         inherit (nixpkgs) lib;
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = nixpkgs.legacyPackages.${system}.extend inputs.neovim-nightly-overlay.overlay;
 
         nvim =
-          pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped
+          pkgs.wrapNeovimUnstable pkgs.neovim-nightly
           (pkgs.neovimUtils.makeNeovimConfig
             {
               customRC = ''
