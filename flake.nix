@@ -44,6 +44,9 @@
                   tree-sitter
                   nodejs
 
+                  # hex.nvim
+                  xxd
+
                   # misc
                   git
                 ])}"
@@ -63,8 +66,9 @@
         };
 
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = [
-            pkgs.stylua
+          nativeBuildInputs = with pkgs; [
+            stylua
+            lua-language-server
           ];
         };
       }
