@@ -10,7 +10,7 @@ return {
 				["core.dirman"] = {
 					config = {
 						workspaces = {
-							notes = "~/docs/notes",
+							notes = os.getenv("XDG_DOCUMENTS_DIR") .. "/neorg",
 						},
 						default_workspace = "notes",
 					},
