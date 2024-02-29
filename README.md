@@ -1,4 +1,4 @@
-# My personal neovim config, using lazy.nvim, available as a nix flake
+## My personal neovim config, using lazy.nvim, available as a nix flake
 
 You can try it without installing it using nix
 ```sh
