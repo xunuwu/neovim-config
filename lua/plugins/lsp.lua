@@ -114,6 +114,7 @@ return {
 				"zls",
 				"hls",
 				"nil_ls",
+				"elixir-ls",
 			})
 		end,
 	},
