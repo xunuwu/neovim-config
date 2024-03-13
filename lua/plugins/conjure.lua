@@ -24,6 +24,6 @@ return {
 		require("conjure.mapping")["on-filetype"]()
 	end,
 	init = function()
-		vim.g["conjure#debug"] = true
+		vim.g["conjure#mapping#doc_word"] = "gk"
 	end,
 }
