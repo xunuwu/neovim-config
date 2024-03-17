@@ -9,6 +9,13 @@ return {
 	{
 		"windwp/nvim-autopairs",
 		event = { "InsertEnter" },
+		opts = {
+			disable_filetype = { "clojure" },
+		},
+	},
+	{
+		"dundalek/parpar.nvim",
+		dependencies = { "gpanders/nvim-parinfer", "julienvincent/nvim-paredit" },
 		opts = {},
 	},
 }
