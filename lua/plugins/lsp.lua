@@ -107,6 +107,7 @@ return {
 			})
 
 			lsp_zero.setup_servers({
+				"gopls",
 				"clojure_lsp",
 				"lua_ls",
 				"rust_analyzer",
