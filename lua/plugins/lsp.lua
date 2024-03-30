@@ -115,6 +115,7 @@ return {
 				"zls",
 				"hls",
 				"nil_ls",
+				"tsserver",
 			})
 		end,
 	},
