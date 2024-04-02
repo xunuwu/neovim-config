@@ -1,7 +1,7 @@
 return {
 	"David-Kunz/gen.nvim",
 	keys = {
-		{ "<ctrl>/", "<cmd>Gen<CR>", desc = "gen.nvim" },
+		{ "<C-/>", "<cmd>Gen<CR>", desc = "gen.nvim" },
 	},
 	opts = {
 		model = "gemma:7b",
