@@ -24,6 +24,7 @@
             {
               customRC = ''
                 set runtimepath^=${./.}
+                let g:sqlite_clib_path = '${pkgs.sqlite.out}/lib/libsqlite3.so'
                 source ${./.}/init.lua
               '';
             }
@@ -46,6 +47,10 @@
 
                   # hex.nvim
                   xxd
+
+                  # smart-open.nvim
+                  sqlite
+                  ripgrep
 
                   # misc
                   git
