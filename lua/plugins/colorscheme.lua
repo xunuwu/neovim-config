@@ -5,5 +5,6 @@ return {
 	config = function()
 		vim.opt.background = "dark"
 		vim.cmd([[colorscheme oxocarbon]])
+		vim.api.nvim_set_hl(0, "Comment", { fg = "#707070", bg = "NONE", italic = true }) -- Make comments brighter
 	end,
 }
