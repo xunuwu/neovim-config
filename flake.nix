@@ -54,6 +54,11 @@
 
                   # misc
                   git
+
+                  # mayb required for neorg??
+                  lua51Packages.lua
+                  lua51Packages.luarocks
+                  unzip
                 ])}"
               ];
             });
