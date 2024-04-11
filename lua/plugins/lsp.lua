@@ -116,6 +116,7 @@ return {
 				"hls",
 				"nil_ls",
 				"tsserver",
+				"emmet_ls",
 			})
 		end,
 	},
