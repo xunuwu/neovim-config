@@ -68,6 +68,9 @@ return {
 				mapping = cmp.mapping.preset.insert({
 					["<C-Space>"] = cmp.mapping.complete(),
 					["<C-e>"] = cmp.mapping.abort(),
+					-- Navigate between snippet placeholder
+					["<C-f>"] = cmp_action.luasnip_jump_forward(),
+					["<C-b>"] = cmp_action.luasnip_jump_backward(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 			})
